@@ -635,9 +635,66 @@
         return;
       }
       
-      // 実際の実装では、ここでサーバーに送信
-      console.log('質問送信:', question);
+      // 現在のページ情報を取得
+      let currentPage = 'トップページ';
+      if (currentView === 'category' && selectedCategory) {
+        currentPage = selectedCategory.title;
+      } else if (currentView === 'answer' && selectedQuestion) {
+        currentPage = `${selectedCategory.title} > ${selectedQuestion.text}`;
+      }
       
+      // Google Formsに送信
+      const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSd1xurYEJpXKOXSPf3mEcaUHlwZWe8wEA4a6n1vPzet5sJVrg/formResponse';
+      
+      // Google Formsへのデータ送信（CORS回避のためiframeを使用）
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.name = 'hidden_iframe';
+      document.body.appendChild(iframe);
+      
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = GOOGLE_FORM_URL;
+      form.target = 'hidden_iframe';
+      
+      // 質問内容
+      const questionInput = document.createElement('input');
+      questionInput.type = 'hidden';
+      questionInput.name = 'entry.806471686';
+      questionInput.value = question;
+      form.appendChild(questionInput);
+      
+      // 閲覧ページ
+      const pageInput = document.createElement('input');
+      pageInput.type = 'hidden';
+      pageInput.name = 'entry.1602356525';
+      pageInput.value = currentPage;
+      form.appendChild(pageInput);
+      
+      // タイムスタンプ
+      const timestampInput = document.createElement('input');
+      timestampInput.type = 'hidden';
+      timestampInput.name = 'entry.123015599';
+      timestampInput.value = new Date().toISOString();
+      form.appendChild(timestampInput);
+      
+      document.body.appendChild(form);
+      form.submit();
+      
+      // クリーンアップ
+      setTimeout(() => {
+        document.body.removeChild(form);
+        document.body.removeChild(iframe);
+      }, 1000);
+      
+      // ローカルログ（開発用）
+      console.log('質問送信:', {
+        question: question,
+        page: currentPage,
+        timestamp: new Date().toISOString()
+      });
+      
+      // UI更新
       textarea.value = '';
       message.innerHTML = '<div class="success-message">✓ 質問を受け付けました。担当者から後ほど回答いたします。</div>';
       
