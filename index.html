@@ -644,14 +644,14 @@
       }
       
       // Google Formsに送信
-      const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1xQol5NYYN_l3uiDK0vvPAHE0iIDSqxt2g3bbKbJu0I8/formResponse';
+      const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfowpbJ1-RyQ1pOpeP_MYVaUQlUFqP1jLi_GudeVSnpXFJ7Aw/formResponse';
       
       // Google Formsへのデータ送信（CORS回避のためiframeを使用）
       const iframe = document.createElement('iframe');
       iframe.style.display = 'none';
       iframe.name = 'hidden_iframe';
       document.body.appendChild(iframe);
-      
+    
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = GOOGLE_FORM_URL;
@@ -660,21 +660,21 @@
       // 質問内容
       const questionInput = document.createElement('input');
       questionInput.type = 'hidden';
-      questionInput.name = 'entry.806471686';
+      questionInput.name = 'entry.114042729';
       questionInput.value = question;
       form.appendChild(questionInput);
       
       // 閲覧ページ
       const pageInput = document.createElement('input');
       pageInput.type = 'hidden';
-      pageInput.name = 'entry.1602356525';
+      pageInput.name = 'entry.1713314985';
       pageInput.value = currentPage;
       form.appendChild(pageInput);
       
       // タイムスタンプ
       const timestampInput = document.createElement('input');
       timestampInput.type = 'hidden';
-      timestampInput.name = 'entry.123015599';
+      timestampInput.name = 'entry.1053862101';
       timestampInput.value = new Date().toISOString();
       form.appendChild(timestampInput);
       
